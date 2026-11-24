@@ -10,8 +10,28 @@ import type { CreateMenuDto, UpdateMenuDto } from './menu.dto.js';
 export class MenuService {
   constructor(private readonly prisma: PrismaService) {}
 
-  findAll() {
-    return this.prisma.menu.findMany({ orderBy: { id: 'asc' } });
+    findAll(kategori?: string) {
+    return this.prisma.menu.findMany({
+      where: kategori ? { kategori } : undefined,
+      orderBy: { id: 'asc' },
+    });
+  }
+
+  // statistik sederhana dengan count dan groupBy
+  async statistik() {
+    const total = await this.prisma.menu.count();
+    const grup = await this.prisma.menu.groupBy({
+      by: ['kategori'],
+      _count: { _all: true },
+      orderBy: { kategori: 'asc' },
+    });
+    return {
+      total,
+      perKategori: grup.map((g) => ({
+        kategori: g.kategori,
+        jumlah: g._count._all,
+      })),
+    };
   }
 
   async findOne(id: number) {

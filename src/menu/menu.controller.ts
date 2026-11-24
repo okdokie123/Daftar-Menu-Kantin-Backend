@@ -7,6 +7,7 @@ import {
   ParseIntPipe,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
 import { MenuService } from './menu.service.js';
 import type { CreateMenuDto, UpdateMenuDto } from './menu.dto.js';
@@ -16,14 +17,20 @@ export class MenuController {
   constructor(private readonly menuService: MenuService) {}
 
   @Get()
-  findAll() {
-    return this.menuService.findAll();
+  findAll(@Query('kategori') kategori?: string) {
+    return this.menuService.findAll(kategori);
+  }
+
+  @Get('statistik')
+  statistik() {
+    return this.menuService.statistik();
   }
 
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.menuService.findOne(id);
   }
+
 
   @Post()
   create(@Body() body: CreateMenuDto) {
