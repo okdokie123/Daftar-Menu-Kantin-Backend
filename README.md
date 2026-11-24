@@ -3,8 +3,6 @@
 REST API untuk mengelola daftar menu makanan dan minuman sebuah kantin.
 Dibuat dengan NestJS, data disimpan permanen di PostgreSQL menggunakan Prisma ORM.
 
-Frontend proyek ini: [LINK REPO FRONTEND]
-
 ## Teknologi
 
 - NestJS
